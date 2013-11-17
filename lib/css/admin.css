@@ -1,0 +1,34 @@
+.tgm-exchange-campaign-monitor label,
+.tgm-exchange-campaign-monitor th,
+.tgm-exchange-campaign-monitor td {
+    margin: 0;
+    vertical-align: middle;
+}
+
+.tgm-exchange-campaign-monitor th {
+    padding-left: 0;
+}
+
+.tgm-exchange-campaign-monitor input[type=text],
+.tgm-exchange-campaign-monitor input[type=password] {
+    margin: 0;
+    padding: 6px 8px;
+    width: 250px;
+}
+
+.tgm-exchange-campaign-monitor select {
+    margin: 0;
+    height: 2.4em;
+    min-width: 250px;
+}
+
+.tgm-exchange-error {
+    border-color: #cc0000 !important;
+    color: #cc0000 !important;
+}
+
+.tgm-exchange-loading {
+    display: none;
+    vertical-align: middle;
+    margin-left: 5px;
+}
