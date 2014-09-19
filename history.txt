@@ -13,3 +13,6 @@
 	Bug Fix: Licensing on SSL-enabled sites now works properly.
 1.0.5 - 2014-06-25 - Glenn Ansley
 	Updating ownership information
+1.0.6 - 2014-09-19 - Glenn Ansley
+	Removed README.md
+	Added Packageer info to plugin header
