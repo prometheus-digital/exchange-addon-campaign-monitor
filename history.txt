@@ -16,3 +16,6 @@
 1.0.6 - 2014-09-19 - Glenn Ansley
 	Removed README.md
 	Added Packageer info to plugin header
+1.0.7 - 2014-11-14 - Packaging Bot (lib/updater)
+	Enhancement: Reduced caching to allow updates to appear more quickly.
+	Enhancement: Authenticating users now uses the new authentication system.
