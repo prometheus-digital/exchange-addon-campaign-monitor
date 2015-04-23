@@ -12,7 +12,7 @@
  * Plugin Name:  iThemes Exchange - Campaign Monitor Add-on
  * Plugin URI:   http://ithemes.com/exchange/campaign-monitor/
  * Description:  Integrates Campaign Monitor into the iThemes Exchange plugin.
- * Version:      1.0.7
+ * Version:      1.0.8
  * Author:       iThemes
  * Author URI:   http://ithemes.com/exchange/
  * Text Domain:  LION
