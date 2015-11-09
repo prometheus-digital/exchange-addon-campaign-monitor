@@ -16,8 +16,11 @@ class CS_REST_BaseSerialiser {
 
     var $_log;
     
-    function CS_REST_BaseSerialiser($log) { 
+    function __construct($log) { 
         $this->_log = $log;
+    }
+    function CS_REST_BaseSerialiser($log) { 
+		self::__construct();
     }
     
     /**
@@ -47,7 +50,8 @@ class CS_REST_BaseSerialiser {
 }
 
 class CS_REST_DoNothingSerialiser extends CS_REST_BaseSerialiser {
-    function CS_REST_DoNothingSerialiser() {}
+    function __construct() {}
+    function CS_REST_DoNothingSerialiser() { self::__construct(); }
     function get_type() { return 'do_nothing'; }
     function serialise($data) { return $data; }
     function deserialise($text) {
@@ -59,8 +63,11 @@ class CS_REST_DoNothingSerialiser extends CS_REST_BaseSerialiser {
 
 class CS_REST_NativeJsonSerialiser extends CS_REST_BaseSerialiser {
 
-    function CS_REST_NativeJsonSerialiser($log) {
+    function __construct($log) {
         $this->CS_REST_BaseSerialiser($log);
+    }
+    function CS_REST_NativeJsonSerialiser($log) {
+		self::__construct();
     }
 
     function get_format() {
@@ -99,9 +106,12 @@ class CS_REST_ServicesJsonSerialiser extends CS_REST_BaseSerialiser {
     
     var $_serialiser;
     
-    function CS_REST_ServicesJsonSerialiser($log) {
+    function __construct($log) {
         $this->CS_REST_BaseSerialiser($log);
         $this->_serialiser = new Services_JSON();
+    }
+    function CS_REST_ServicesJsonSerialiser($log) {
+		self::__construct();
     }
 
     function get_content_type() {

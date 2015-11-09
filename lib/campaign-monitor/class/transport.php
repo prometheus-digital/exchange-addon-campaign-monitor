@@ -34,8 +34,11 @@ class CS_REST_BaseTransport {
     
     var $_log;
     
-    function CS_REST_BaseTransport($log) {
+    function __construct($log) {
         $this->_log = $log;
+    }
+    function CS_REST_BaseTransport($log) {
+		self::__construct();
     }
     
     function split_and_inflate($response, $may_be_compressed) {        
@@ -65,11 +68,14 @@ class CS_REST_CurlTransport extends CS_REST_BaseTransport {
 
     var $_curl_zlib;
 
-    function CS_REST_CurlTransport($log) {
+    function __construct($log) {
         $this->CS_REST_BaseTransport($log);
         
         $curl_version = curl_version();
         $this->_curl_zlib = isset($curl_version['libz_version']);
+    }
+    function CS_REST_CurlTransport($log) {
+		self::__construct();
     }
 
     /**
@@ -210,7 +216,7 @@ class CS_REST_SocketTransport extends CS_REST_BaseTransport {
 
     var $_socket_wrapper;
 
-    function CS_REST_SocketTransport($log, $socket_wrapper = NULL) {
+    function __construct($log, $socket_wrapper = NULL) {
         $this->CS_REST_BaseTransport($log);
 
         if(is_null($socket_wrapper)) {
@@ -218,6 +224,10 @@ class CS_REST_SocketTransport extends CS_REST_BaseTransport {
         }
 
         $this->_socket_wrapper = $socket_wrapper;
+    }
+
+    function CS_REST_SocketTransport($log, $socket_wrapper = NULL) {
+		self::__construct();
     }
 
     /**

@@ -37,6 +37,22 @@ class CS_REST_Segments extends CS_REST_Wrapper_Base {
      * @param $transport The transport to use. Used for dependency injection
      * @access public
      */
+    function __construct (
+    $segment_id,
+    $auth_details,
+    $protocol = 'https',
+    $debug_level = CS_REST_LOG_NONE,
+    $host = 'api.createsend.com',
+    $log = NULL,
+    $serialiser = NULL,
+    $transport = NULL) {
+        $this->CS_REST_Wrapper_Base($auth_details, $protocol, $debug_level, $host, $log, $serialiser, $transport);
+        $this->set_segment_id($segment_id);
+    }
+    
+    /**
+     * Deprecated Constructor.
+     */
     function CS_REST_Segments (
     $segment_id,
     $auth_details,
@@ -46,9 +62,7 @@ class CS_REST_Segments extends CS_REST_Wrapper_Base {
     $log = NULL,
     $serialiser = NULL,
     $transport = NULL) {
-            
-        $this->CS_REST_Wrapper_Base($auth_details, $protocol, $debug_level, $host, $log, $serialiser, $transport);
-        $this->set_segment_id($segment_id);
+		self::__construct();
     }
 
     /**

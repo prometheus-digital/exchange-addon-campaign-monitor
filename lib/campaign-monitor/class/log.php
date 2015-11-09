@@ -7,8 +7,11 @@ define('CS_REST_LOG_NONE', 0);
 class CS_REST_Log {
     var $_level;
 
-    function CS_REST_Log($level) {
+    function __construct($level) {
         $this->_level = $level;
+    }
+    function CS_REST_Log($level) {
+		self::__construct();
     }
 
     function log_message($message, $module, $level) {

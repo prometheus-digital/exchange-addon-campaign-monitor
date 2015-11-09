@@ -129,9 +129,17 @@ class Services_JSON
     *                                   bubble up with an error, so all return values
     *                                   from encode() should be checked with isError()
     */
-    function Services_JSON($use = 0)
+    function __construct($use = 0)
     {
         $this->use = $use;
+    }
+    
+   /**
+    * Deprected constructs a new JSON instance
+    */
+    function Services_JSON($use = 0)
+    {
+		self::__construct();
     }
 
    /**
@@ -772,10 +780,15 @@ class Services_JSON
 
 class Services_JSON_Error
 {
-    function Services_JSON_Error($message = 'unknown error', $code = null,
+    function __construct($message = 'unknown error', $code = null,
                                  $mode = null, $options = null, $userinfo = null)
     {
 
+    }
+    function Services_JSON_Error($message = 'unknown error', $code = null,
+                                 $mode = null, $options = null, $userinfo = null)
+    {
+		self::__construct();
     }
 }
     
