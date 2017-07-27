@@ -517,7 +517,7 @@ class TGM_Exchange_Campaign_Monitor {
 		    if( $license_data->license == 'deactivated' ) {
 			    delete_option( 'exchange_campaignmonitor_license_status' );
 		    }
-            
+
 	    }
 
 	    return $this->saved = true;

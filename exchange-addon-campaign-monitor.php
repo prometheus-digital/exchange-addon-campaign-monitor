@@ -12,7 +12,7 @@
  * Plugin Name:  ExchangeWP - Campaign Monitor Add-on
  * Plugin URI:   https://exchangewp.com/downloads/campaign-monitor/
  * Description:  Integrates Campaign Monitor into the ExchangeWP plugin.
- * Version:      1.1.0
+ * Version:      1.1.1
  * Author:       ExchangeWP
  * Author URI:   https://exchangewp.com/
  * Text Domain:  LION
@@ -68,7 +68,7 @@ if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) )  {
 
  	// setup the updater
  	$edd_updater = new EDD_SL_Plugin_Updater( 'https://exchangewp.com', __FILE__, array(
- 			'version' 		=> '1.1.0', 				// current version number
+ 			'version' 		=> '1.1.1', 				// current version number
  			'license' 		=> $license_key, 		// license key (used get_option above to retrieve from DB)
  			'item_name' 	=> 'campaign-monitor', 	  // name of this plugin
  			'author' 	  	=> 'ExchangeWP',    // author of this plugin
