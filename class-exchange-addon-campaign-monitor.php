@@ -475,8 +475,7 @@ class TGM_Exchange_Campaign_Monitor {
 
 		    //$license_data->license will be either "valid" or "invalid"
 		    update_option( 'exchange_campaignmonitor_license_status', $license_data->license );
-            wp_redirect( admin_url( 'admin.php?page=it-exchange-addons&add-on-settings=campaignmonitor-license' ) );
-		    exit();
+
 	    }
 
 	    // deactivate here
@@ -486,9 +485,6 @@ class TGM_Exchange_Campaign_Monitor {
 		    // run a quick security check
 		    if( ! check_admin_referer( 'exchange_campaignmonitor_nonce', 'exchange_campaignmonitor_nonce' ) )
 			    return; // get out if we didn't click the Activate button
-
-		    // retrieve the license from the database
-		    // $license = trim( get_option( 'exchange_campaignmonitor_license_key' ) );
 
 		    $exchangewp_campaignmonitor_options = get_option( 'tgm_exchange_campaign_monitor' );
 		    $license = $exchangewp_campaignmonitor_options['campaign-monitor-license-key'];
@@ -513,11 +509,6 @@ class TGM_Exchange_Campaign_Monitor {
 				    $message = __( 'An error occurred, please try again.' );
 			    }
 
-			    // $base_url = admin_url( 'admin.php?page=' . 'campaignmonitor-license' );
-			    // $redirect = add_query_arg( array( 'sl_activation' => 'false', 'message' => urlencode( $message ) ), $base_url );
-
-			    wp_redirect( admin_url('admin.php?page=it-exchange-addons&add-on-settings=campaignmonitor-license' ) );
-			    exit();
 		    }
 
 		    // decode the license data
@@ -526,10 +517,7 @@ class TGM_Exchange_Campaign_Monitor {
 		    if( $license_data->license == 'deactivated' ) {
 			    delete_option( 'exchange_campaignmonitor_license_status' );
 		    }
-
-            wp_redirect( admin_url( 'admin.php?page=it-exchange-addons&add-on-settings=campaignmonitor-license' ) );
-		    exit();
-
+            
 	    }
 
 	    return $this->saved = true;
