@@ -242,9 +242,7 @@ class TGM_Exchange_Campaign_Monitor {
                     <?php
                        $exchangewp_campaignmonitor_options = get_option( 'it-storage-exchange_addon_campaignmonitor' );
                        $license = $exchangewp_campaignmonitor_options['campaignmonitor_license'];
-                       // var_dump($license);
                        $exstatus = trim( get_option( 'exchange_campaignmonitor_license_status' ) );
-                       // var_dump($exstatus);
                     ?>
                     <table class="form-table">
                         <tbody>
@@ -370,7 +368,7 @@ class TGM_Exchange_Campaign_Monitor {
         $settings     = get_option( 'tgm_exchange_campaign_monitor' );
         $new_settings = stripslashes_deep( $_POST['_tgm_exchange_campaign_monitor'] );
 
-	    $settings['campaign-monitor-license-key'] = isset( $new_settings['campaign-monitor-license-key'] ) ? trim( $new_settings['campaign-monitor-license-key'] ) : $settings['campaign-monitor-license-key'];
+  	    $settings['campaign-monitor-license-key'] = isset( $new_settings['campaign-monitor-license-key'] ) ? trim( $new_settings['campaign-monitor-license-key'] ) : $settings['campaign-monitor-license-key'];
         $settings['campaign-monitor-api-key'] = isset( $new_settings['campaign-monitor-api-key'] ) ? trim( $new_settings['campaign-monitor-api-key'] ) : $settings['campaign-monitor-api-key'];
         $settings['campaign-monitor-client']  = isset( $new_settings['campaign-monitor-client'] ) ? esc_attr( $new_settings['campaign-monitor-client'] ) : $settings['campaign-monitor-client'];
         $settings['campaign-monitor-list']    = isset( $new_settings['campaign-monitor-list'] ) ? esc_attr( $new_settings['campaign-monitor-list'] ) : $settings['campaign-monitor-list'];

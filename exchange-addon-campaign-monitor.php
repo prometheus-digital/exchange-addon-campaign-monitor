@@ -63,12 +63,12 @@ if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) )  {
  	// retrieve our license key from the DB
  	// this is going to have to be pulled from a seralized array to get the actual key.
  	// $license_key = trim( get_option( 'exchange_campaignmonitor_license_key' ) );
- 	$exchangewp_campaignmonitor_options = get_option( 'it-storage-exchange_addon_campaignmonitor' );
- 	$license_key = $exchangewp_campaignmonitor_options['campaignmonitor_license'];
+ 	$exchangewp_campaignmonitor_options = get_option( 'tgm_exchange_campaign_monitor' );
+ 	$license_key = $exchangewp_campaignmonitor_options['campaign-monitor-license-key'];
 
  	// setup the updater
  	$edd_updater = new EDD_SL_Plugin_Updater( 'https://exchangewp.com', __FILE__, array(
- 			'version' 		=> '1.1.1', 				// current version number
+ 			'version' 		=> '0.1.1', 				// current version number
  			'license' 		=> $license_key, 		// license key (used get_option above to retrieve from DB)
  			'item_name' 	=> 'campaign-monitor', 	  // name of this plugin
  			'author' 	  	=> 'ExchangeWP',    // author of this plugin
@@ -77,8 +77,8 @@ if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) )  {
  			'beta'		  	=> false
  		)
  	);
- 	// var_dump($edd_updater);
- 	// die();
+ // 	var_dump($edd_updater);
+ // 	die();
 
  }
 
