@@ -33,7 +33,6 @@ define( 'TGM_EXCHANGE_CAMPAIGN_MONITOR_FILE', __FILE__ );
 
 // Register the plugin updater.
 add_action( 'ithemes_updater_register', 'tgm_exchange_campaign_monitor_updater' );
-
 /**
  * Registers the iThemes updater with the addon.
  *
@@ -68,7 +67,7 @@ if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) )  {
 
  	// setup the updater
  	$edd_updater = new EDD_SL_Plugin_Updater( 'https://exchangewp.com', __FILE__, array(
- 			'version' 		=> '0.1.1', 				// current version number
+ 			'version' 		=> '1.1.1',			// current version number
  			'license' 		=> $license_key, 		// license key (used get_option above to retrieve from DB)
  			'item_name' 	=> 'campaign-monitor', 	  // name of this plugin
  			'author' 	  	=> 'ExchangeWP',    // author of this plugin
@@ -83,7 +82,6 @@ if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) )  {
  }
 
  add_action( 'admin_init', 'exchange_campaignmonitor_plugin_updater', 0 );
-
 
 // Register the addon with the Exchange engine.
 add_action( 'it_exchange_register_addons', 'tgm_exchange_campaign_monitor_register' );
