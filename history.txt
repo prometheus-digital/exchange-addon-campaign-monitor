@@ -25,3 +25,6 @@
 	Enhancement: Updated link to iThemes support.
 1.1.0 - 2015-11-09 - Lew Ayotte
 	PHP7 Updates
+1.1.1 - 2017-08-01 - AJ Morris
+    Enhancement: New Licensing system
+    Enhancement: Rebrand to ExchangeWP

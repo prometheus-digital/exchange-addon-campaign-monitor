@@ -1,6 +1,6 @@
 <?php
 /**
- * iThemes Exchange - Campaign Monitor Add-on.
+ * ExchangeWP - Campaign Monitor Add-on.
  *
  * @package   TGM_Exchange_Campaign_Monitor
  * @author    Thomas Griffin
@@ -9,18 +9,18 @@
  * @copyright 2013 Griffin Media, LLC. All rights reserved.
  *
  * @wordpress-plugin
- * Plugin Name:  iThemes Exchange - Campaign Monitor Add-on
- * Plugin URI:   http://ithemes.com/exchange/campaign-monitor/
- * Description:  Integrates Campaign Monitor into the iThemes Exchange plugin.
- * Version:      1.1.0
- * Author:       iThemes
- * Author URI:   http://ithemes.com/exchange/
+ * Plugin Name:  ExchangeWP - Campaign Monitor Add-on
+ * Plugin URI:   https://exchangewp.com/downloads/campaign-monitor/
+ * Description:  Integrates Campaign Monitor into the ExchangeWP plugin.
+ * Version:      1.1.1
+ * Author:       ExchangeWP
+ * Author URI:   https://exchangewp.com/
  * Text Domain:  LION
- * Contributors: ithemes, griffinjt
+ * Contributors: ExchangeWP, griffinjt
  * License:      GPL-2.0+
  * License URI:  http://www.gnu.org/licenses/gpl-2.0.txt
  * Domain Path:  /lang
- * iThemes Package: exchange-addon-campaign-monitor
+ * ExchangeWP Package: exchange-addon-campaign-monitor
  *
  * This add-on was originally developed by Thomas Griffin <http://thomasgriffinmedia.com/>
  */
@@ -53,6 +53,36 @@ function tgm_exchange_campaign_monitor_updater( $updater ) {
 
 }
 
+if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) )  {
+ 	require_once 'EDD_SL_Plugin_Updater.php';
+ }
+
+ function exchange_campaignmonitor_plugin_updater() {
+
+ 	// retrieve our license key from the DB
+ 	// this is going to have to be pulled from a seralized array to get the actual key.
+ 	// $license_key = trim( get_option( 'exchange_campaignmonitor_license_key' ) );
+ 	$exchangewp_campaignmonitor_options = get_option( 'tgm_exchange_campaign_monitor' );
+ 	$license_key = $exchangewp_campaignmonitor_options['campaign-monitor-license-key'];
+
+ 	// setup the updater
+ 	$edd_updater = new EDD_SL_Plugin_Updater( 'https://exchangewp.com', __FILE__, array(
+ 			'version' 		=> '1.1.1',			// current version number
+ 			'license' 		=> $license_key, 		// license key (used get_option above to retrieve from DB)
+ 			'item_name' 	=> 'campaign-monitor', 	  // name of this plugin
+ 			'author' 	  	=> 'ExchangeWP',    // author of this plugin
+ 			'url'       	=> home_url(),
+ 			'wp_override' => true,
+ 			'beta'		  	=> false
+ 		)
+ 	);
+ // 	var_dump($edd_updater);
+ // 	die();
+
+ }
+
+ add_action( 'admin_init', 'exchange_campaignmonitor_plugin_updater', 0 );
+
 // Register the addon with the Exchange engine.
 add_action( 'it_exchange_register_addons', 'tgm_exchange_campaign_monitor_register' );
 /**
@@ -69,8 +99,8 @@ function tgm_exchange_campaign_monitor_register() {
         $options = array(
             'name'              => __( 'Campaign Monitor', 'tgm-exchange-campaign-monitor' ),
             'description'       => __( 'Adds a Campaign Monitor optin checkbox to the user registration form.', 'tgm-exchange-campaign-monitor' ),
-            'author'            => 'iThemes',
-            'author_url'        => 'http://ithemes.com/exchange/',
+            'author'            => 'ExchangeWP',
+            'author_url'        => 'https://exchangewp.com/',
             'icon'              => ITUtility::get_url_from_file( dirname( __FILE__ ) . '/lib/images/campaign-monitor50px.png' ),
             'file'              => dirname( __FILE__ ) . '/class-exchange-addon-campaign-monitor.php',
             'category'          => 'email',
