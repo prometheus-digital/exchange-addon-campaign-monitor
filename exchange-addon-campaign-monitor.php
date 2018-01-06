@@ -32,10 +32,10 @@ if ( ! defined( 'WPINC' ) ) die;
 define( 'TGM_EXCHANGE_CAMPAIGN_MONITOR_FILE', __FILE__ );
 
 
- function exchange_campaignmonitor_plugin_updater() {
-   $license_data = get_transient( 'exchangewp_license_check' );
+function exchange_campaignmonitor_plugin_updater() {
+  $license_data = get_transient( 'exchangewp_license_check' );
 
-   if ( $license_data->license == 'valid' ) {
+    if ( $license_data->license == 'valid' ) {
 
      $exchangewp_license = it_exchange_get_option( 'exchangewp_licenses' );
      $license = $exchangewp_license['exchangewp_license'];
@@ -53,7 +53,7 @@ define( 'TGM_EXCHANGE_CAMPAIGN_MONITOR_FILE', __FILE__ );
      	);
      // 	var_dump($edd_updater);
      // 	die();
-   }
+    }
 
  }
 
