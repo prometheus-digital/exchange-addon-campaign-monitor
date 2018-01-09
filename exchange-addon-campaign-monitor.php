@@ -44,7 +44,7 @@ function exchange_campaignmonitor_plugin_updater() {
      	$edd_updater = new EDD_SL_Plugin_Updater( 'https://exchangewp.com', __FILE__, array(
      			'version' 		=> '1.0.1',			           // current version number
      			'license' 		=> $license, 		           // license key (used get_option above to retrieve from DB)
-     			'item_name' 	=> 'campaign-monitor', 	   // name of this plugin
+     			'item_id'    	=> 337, 	   // name of this plugin
      			'author' 	  	=> 'ExchangeWP',           // author of this plugin
      			'url'       	=> home_url(),
      			'wp_override' => true,
