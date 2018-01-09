@@ -12,7 +12,7 @@
  * Plugin Name:  ExchangeWP - Campaign Monitor Add-on
  * Plugin URI:   https://exchangewp.com/downloads/campaign-monitor/
  * Description:  Integrates Campaign Monitor into the ExchangeWP plugin.
- * Version:      1.1.1
+ * Version:      1.1.2
  * Author:       ExchangeWP
  * Author URI:   https://exchangewp.com/
  * Text Domain:  LION
@@ -31,53 +31,29 @@ if ( ! defined( 'WPINC' ) ) die;
 // Define constants.
 define( 'TGM_EXCHANGE_CAMPAIGN_MONITOR_FILE', __FILE__ );
 
-// Register the plugin updater.
-add_action( 'ithemes_updater_register', 'tgm_exchange_campaign_monitor_updater' );
-/**
- * Registers the iThemes updater with the addon.
- *
- * @since 1.0.0
- *
- * @param object $updater The iThemes updater object.
- */
-function tgm_exchange_campaign_monitor_updater( $updater ) {
 
-    // Return early if not in the admin.
-    if ( ! is_admin() ) return;
+function exchange_campaignmonitor_plugin_updater() {
+  $license_data = get_transient( 'exchangewp_license_check' );
 
-    // Load the updater class.
-    require_once dirname( __FILE__ ) . '/lib/updater/load.php';
+    if ( $license_data->license == 'valid' ) {
 
-    // Register the addon with the updater.
-    $updater->register( 'exchange-addon-campaign-monitor', __FILE__ );
+     $exchangewp_license = it_exchange_get_option( 'exchangewp_licenses' );
+     $license = $exchangewp_license['exchangewp_license'];
 
-}
-
-if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) )  {
- 	require_once 'EDD_SL_Plugin_Updater.php';
- }
-
- function exchange_campaignmonitor_plugin_updater() {
-
- 	// retrieve our license key from the DB
- 	// this is going to have to be pulled from a seralized array to get the actual key.
- 	// $license_key = trim( get_option( 'exchange_campaignmonitor_license_key' ) );
- 	$exchangewp_campaignmonitor_options = get_option( 'tgm_exchange_campaign_monitor' );
- 	$license_key = $exchangewp_campaignmonitor_options['campaign-monitor-license-key'];
-
- 	// setup the updater
- 	$edd_updater = new EDD_SL_Plugin_Updater( 'https://exchangewp.com', __FILE__, array(
- 			'version' 		=> '1.1.1',			// current version number
- 			'license' 		=> $license_key, 		// license key (used get_option above to retrieve from DB)
- 			'item_name' 	=> 'campaign-monitor', 	  // name of this plugin
- 			'author' 	  	=> 'ExchangeWP',    // author of this plugin
- 			'url'       	=> home_url(),
- 			'wp_override' => true,
- 			'beta'		  	=> false
- 		)
- 	);
- // 	var_dump($edd_updater);
- // 	die();
+     	// setup the updater
+     	$edd_updater = new EDD_SL_Plugin_Updater( 'https://exchangewp.com', __FILE__, array(
+     			'version' 		=> '1.1.2',			           // current version number
+     			'license' 		=> $license, 		           // license key (used get_option above to retrieve from DB)
+     			'item_id'    	=> 337, 	   // name of this plugin
+     			'author' 	  	=> 'ExchangeWP',           // author of this plugin
+     			'url'       	=> home_url(),
+     			'wp_override' => true,
+     			'beta'		  	=> false
+     		)
+     	);
+     // 	var_dump($edd_updater);
+     // 	die();
+    }
 
  }
 

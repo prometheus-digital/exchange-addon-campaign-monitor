@@ -239,31 +239,9 @@ class TGM_Exchange_Campaign_Monitor {
                 <form class="tgm-exchange-campaign-monitor-form" action="admin.php?page=it-exchange-addons&add-on-settings=campaign-monitor" method="post">
                     <?php wp_nonce_field( 'LION-form' ); ?>
                     <input type="hidden" name="tgm-exchange-campaign-monitor-form" value="1" />
-                    <?php
-                       $exchangewp_campaignmonitor_options = get_option( 'it-storage-exchange_addon_campaignmonitor' );
-                       $license = $exchangewp_campaignmonitor_options['campaignmonitor_license'];
-                       $exstatus = trim( get_option( 'exchange_campaignmonitor_license_status' ) );
-                    ?>
+
                     <table class="form-table">
                         <tbody>
-                            <tr valign="middle">
-                                <th scope="row">
-                                    <label class="description" for="exchange_campaignmonitor_license_key"><strong><?php _e('Enter your ExchangeWP Campaign Monitor license key'); ?></strong></label>
-                                </th>
-                                <td>
-                                    <input id="tgm-exchange-campaignmonitor_license" name="_tgm_exchange_campaign_monitor[campaign-monitor-license-key]" type="text" value="<?php echo $this->get_setting( 'campaign-monitor-license-key' ); ?>" placeholder="<?php esc_attr_e( 'Enter your ExchangeWP License Key here.', 'LION' ); ?>" />
-                                    <span>
-                                        <?php if( $exstatus !== false && $exstatus == 'valid' ) { ?>
-                                            <span style="color:green;"><?php _e('active'); ?></span>
-                    			            <?php wp_nonce_field( 'exchange_campaignmonitor_nonce', 'exchange_campaignmonitor_nonce' ); ?>
-                    			            <input type="submit" class="button-secondary" name="exchange_campaignmonitor_license_deactivate" value="<?php _e('Deactivate License'); ?>"/>
-                                        <?php } else {
-                                            wp_nonce_field( 'exchange_campaignmonitor_nonce', 'exchange_campaignmonitor_nonce' ); ?>
-                                            <input type="submit" class="button-secondary" name="exchange_campaignmonitor_license_activate" value="<?php _e('Activate License'); ?>"/>
-                                        <?php } ?>
-                                    </span>
-                                </td>
-                            </tr>
                             <tr valign="middle">
                                 <th scope="row">
                                     <label for="tgm-exchange-campaign-monitor-api-key"><strong><?php _e( 'Campaign Monitor API Key', 'LION' ); ?></strong></label>
@@ -368,7 +346,6 @@ class TGM_Exchange_Campaign_Monitor {
         $settings     = get_option( 'tgm_exchange_campaign_monitor' );
         $new_settings = stripslashes_deep( $_POST['_tgm_exchange_campaign_monitor'] );
 
-  	    $settings['campaign-monitor-license-key'] = isset( $new_settings['campaign-monitor-license-key'] ) ? trim( $new_settings['campaign-monitor-license-key'] ) : $settings['campaign-monitor-license-key'];
         $settings['campaign-monitor-api-key'] = isset( $new_settings['campaign-monitor-api-key'] ) ? trim( $new_settings['campaign-monitor-api-key'] ) : $settings['campaign-monitor-api-key'];
         $settings['campaign-monitor-client']  = isset( $new_settings['campaign-monitor-client'] ) ? esc_attr( $new_settings['campaign-monitor-client'] ) : $settings['campaign-monitor-client'];
         $settings['campaign-monitor-list']    = isset( $new_settings['campaign-monitor-list'] ) ? esc_attr( $new_settings['campaign-monitor-list'] ) : $settings['campaign-monitor-list'];
@@ -377,146 +354,6 @@ class TGM_Exchange_Campaign_Monitor {
 
         // Save the settings and set saved flag to true.
         update_option( 'tgm_exchange_campaign_monitor', $settings );
-
-
-	    if( isset( $_POST['exchange_campaignmonitor_license_activate'] ) ) {
-
-		    // run a quick security check
-		    if( ! check_admin_referer( 'exchange_campaignmonitor_nonce', 'exchange_campaignmonitor_nonce' ) )
-			    return; // get out if we didn't click the Activate button
-
-		    // retrieve the license from the database
-		    // $license = trim( get_option( 'exchange_campaignmonitor_license_key' ) );
-		    $exchangewp_campaignmonitor_options = get_option( 'tgm_exchange_campaign_monitor' );
-		    $license = trim( $exchangewp_campaignmonitor_options['campaign-monitor-license-key'] );
-
-		    // data to send in our API request
-		    $api_params = array(
-			    'edd_action' => 'activate_license',
-			    'license'    => $license,
-			    'item_name'  => urlencode( 'campaign-monitor' ), // the name of our product in EDD
-			    'url'        => home_url()
-		    );
-
-		    // Call the custom API.
-		    $response = wp_remote_post( 'https://exchangewp.com', array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
-
-		    // make sure the response came back okay
-		    if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-
-			    if ( is_wp_error( $response ) ) {
-				    $message = $response->get_error_message();
-			    } else {
-				    $message = __( 'An error occurred, please try again.' );
-			    }
-
-		    } else {
-
-			    $license_data = json_decode( wp_remote_retrieve_body( $response ) );
-
-			    if ( false === $license_data->success ) {
-
-				    switch( $license_data->error ) {
-
-					    case 'expired' :
-
-						    $message = sprintf(
-							    __( 'Your license key expired on %s.' ),
-							    date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
-						    );
-						    break;
-
-					    case 'revoked' :
-
-						    $message = __( 'Your license key has been disabled.' );
-						    break;
-
-					    case 'missing' :
-
-						    $message = __( 'Invalid license.' );
-						    break;
-
-					    case 'invalid' :
-					    case 'site_inactive' :
-
-						    $message = __( 'Your license is not active for this URL.' );
-						    break;
-
-					    case 'item_name_mismatch' :
-
-						    $message = sprintf( __( 'This appears to be an invalid license key for %s.' ), 'campaignmonitor' );
-						    break;
-
-					    case 'no_activations_left':
-
-						    $message = __( 'Your license key has reached its activation limit.' );
-						    break;
-
-					    default :
-
-						    $message = __( 'An error occurred, please try again.' );
-						    break;
-				    }
-
-			    }
-
-		    }
-
-		    // Check if anything passed on a message constituting a failure
-		    if ( ! empty( $message ) ) {
-			    $base_url = admin_url( 'admin.php?page=' . 'it-exchange-addons&add-on-settings=campaignmonitor-license' );
-			    $redirect = add_query_arg( array( 'sl_activation' => 'false', 'message' => urlencode( $message ) ), $base_url );
-
-			    wp_redirect( $redirect );
-			    exit();
-		    }
-
-		    //$license_data->license will be either "valid" or "invalid"
-		    update_option( 'exchange_campaignmonitor_license_status', $license_data->license );
-
-	    }
-
-	    // deactivate here
-	    // listen for our activate button to be clicked
-	    if( isset( $_POST['exchange_campaignmonitor_license_deactivate'] ) ) {
-
-		    // run a quick security check
-		    if( ! check_admin_referer( 'exchange_campaignmonitor_nonce', 'exchange_campaignmonitor_nonce' ) )
-			    return; // get out if we didn't click the Activate button
-
-		    $exchangewp_campaignmonitor_options = get_option( 'tgm_exchange_campaign_monitor' );
-		    $license = $exchangewp_campaignmonitor_options['campaign-monitor-license-key'];
-
-
-		    // data to send in our API request
-		    $api_params = array(
-			    'edd_action' => 'deactivate_license',
-			    'license'    => $license,
-			    'item_name'  => urlencode( 'campaign-monitor' ), // the name of our product in EDD
-			    'url'        => home_url()
-		    );
-		    // Call the custom API.
-		    $response = wp_remote_post( 'https://exchangewp.com', array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
-
-		    // make sure the response came back okay
-		    if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-
-			    if ( is_wp_error( $response ) ) {
-				    $message = $response->get_error_message();
-			    } else {
-				    $message = __( 'An error occurred, please try again.' );
-			    }
-
-		    }
-
-		    // decode the license data
-		    $license_data = json_decode( wp_remote_retrieve_body( $response ) );
-		    // $license_data->license will be either "deactivated" or "failed"
-		    if( $license_data->license == 'deactivated' ) {
-			    delete_option( 'exchange_campaignmonitor_license_status' );
-		    }
-
-	    }
 
 	    return $this->saved = true;
 
